@@ -1,0 +1,102 @@
+<!-- 1. 搜索：百度 谷歌 -->
+<!-- 2. 打开网页 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .key{
+      width: 50px;
+      height: 40px;
+      background: linear-gradient(to bottom, #292929 0%, #111111 100%);
+      border: 1px solid #373737;
+      color: #c5c5c5;
+      border-radius: 6px;
+      box-shadow: 0 0 0 1px #1a1b1c, 0 0 0 2px #1f2020, 0 3px 0 2px #080808;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .row {
+      margin: 20px;
+    }
+    .row .key {
+      margin: 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+  </header>
+  <!-- 不让main居中，所以要多加一层 -->
+  <main>
+    <!-- <kbd class='key'>A</kbd> -->
+    <div id="main" class="wrapper"></div>
+  </main>
+  <footer></footer>
+  <script>
+    // 数组的数组
+    var keys = {
+      '0':['q','w','e','r','t','y','u','i','o','p'],
+      '1':['a','s','d','f','g','h','j','k','l'],
+      '2':['z','x','c','v','b','n','m'],
+
+      // 长度为3的数组
+      length: 3 
+    }
+    var hash = { 'w': 'weibo.com', 'e': 'ele.me', 'q': 'qq.com', 'r': 'renren.com', 't': 'tianya.com', 'y': 'yahoo.com', 'u': 'uc.com', 'i': 'iqiyi.com', 'o': 'opera.com', 'p': undefined, 'a': 'acfun.tv', 's': 'sohu.com', 'z': 'zhihu.com',  'm': 'www.mcdonalds.com.cn' }
+    hashInlocalStorage = JSON.parse(localStorage.getItem('zzz') || 'null')
+    if(hashInlocalStorage){
+      hash = hashInlocalStorage
+    }
+    // 创建标签
+    index = 0
+    while(index<keys.length){
+      newDiv = document.createElement('div')
+      newDiv.className = 'row'
+      main.appendChild(newDiv)
+      row = keys[index]
+      // console.log(row)
+      index2 = 0
+      while(index2<row.length){
+        newKBD = document.createElement('kbd')
+        
+        // 注意不是row[index]
+        newKBD.textContent = row[index2]
+        newKBD.className = 'key'
+        newButton = document.createElement('button')
+        newButton.textContent = '编辑'
+        newButton.id = row[index2]
+        newButton.onclick = function(abc){
+          key = abc['target']['id']
+          x = prompt('给我一个网址')
+          hash[key]= x // hash 变更
+          localStorage.setItem('zzz',JSON.stringify(hash))
+          console.log(hash)
+        }
+        newKBD.appendChild(newButton)
+        newDiv.appendChild(newKBD)
+        index2++;
+      }
+      index++;
+  }
+  document.onkeypress = function(abc){
+    // console.log(abc)
+    key = abc.key
+    website = hash[key]
+    // console.log(website)
+    location.href = 'http://' + website
+    window.open('http://'+website, '_blank')
+  }
+  
+  
+    
+  </script>
+</body>
+
+</html>
